@@ -104,7 +104,7 @@ class Aircraft:
 	def __init__(self, weight):
 		self._weight = weight
 
-class UAV(object):
+class UAV:
 	def __init__(self):
 		self._has_autopilot = True
 
