@@ -104,27 +104,30 @@ class Aircraft:
 	def __init__(self, weight):
 		self._weight = weight
 
-class UAV:
+class UAV(object):
 	def __init__(self):
 		self._has_autopilot = True
-		self.__missions: List[List[str]] = []
 
 	# напишите код для декоратора атрибута _missions
-	def add_mission(self, mission: List[List[List[str]]]) -> None:
+	@property
+	def missions(self) -> List[List[str]]:
+		return self._missions
+	
+	@missions.setter
+	def missions(self, mission: List[List[List[str]]]) -> None:
+		if not hasattr(self, "missions"):
+			self._missions: List[List[str]] = []
+			
 		if mission is not None:
-			self.__missions.extend(mission)
+			self._missions.extend(mission)
 
-	def get_missions(self) -> List[List[str]]:
-		return self.__missions
-	
-	def del_missions(self) -> None:
-		self.__missions.clear()
-	
-	missions = property(get_missions, add_mission, del_missions)
+	@missions.deleter
+	def missions(self) -> None:
+		self._missions.clear()
 
 	# напишите публичный метод count_missions
 	def count_missions(self) -> int:
-		return len(self.__missions)
+		return len(self.missions)
 
 
 class MultirotorUAV(Aircraft, UAV):
